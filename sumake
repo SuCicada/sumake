@@ -1,0 +1,18 @@
+#!/bin/bash
+args=("$@")
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -v|--version)
+      echo "sumake: {VERSION}"
+      ;;
+  esac
+  shift
+done
+
+
+cmd="make -f {UTILS_MK}"
+if [ -f Makefile ]; then
+  cmd+=" -f Makefile "
+fi
+$cmd $args
+
