@@ -6,3 +6,4 @@ build
 sumake.egg-info
 dist
 .pytest_cache
+version.txt
