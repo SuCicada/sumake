@@ -11,6 +11,8 @@ define wget_if_not_exist
 @if [ ! -f $(1) ]; then \
 	mkdir -p $(dir $(1)); \
 	wget -O $(1) $(2); \
+else \
+	echo "File already exists: $(1) "; \
 fi
 endef
 
