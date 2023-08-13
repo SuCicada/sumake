@@ -8,3 +8,4 @@ info:
 	echo $(USE_CONDA)
 	@echo "haha"
 	echo $(aa)
+	echo $(args)
