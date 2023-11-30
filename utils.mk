@@ -32,12 +32,18 @@ ifeq ($(USE_CONDA),false)
 	export conda_run=
 endif
 #if $(filter $(conda) $(USE_CONDA),false),, $(eval CONDA_RUN := conda run -n $(conda_env) --no-capture-output))
+DEPLOY_USERNAME ?= $(USERNAME)
+#DEPLOY_USERNAME ?= peng
 
-PORT ?= 22
-DEPLOY_HOST ?= $(USERNAME)@$(DEPLOY_ADDRESS)
+DEPLOY_PORT ?= 22
+DEPLOY_HOST ?= $(DEPLOY_USERNAME)@$(DEPLOY_ADDRESS)
 define upload
 	@rsync -av  \
-		--rsh="ssh -o StrictHostKeyChecking=no -p $(PORT)" \
+		--rsh="ssh -o StrictHostKeyChecking=no -p $(DEPLOY_PORT)" \
 		$(1) \
 		${DEPLOY_HOST}:$(patsubst %,%, $(if $(2),$(2),~/$(patsubst %,%,$(1))))
+endef
+
+define command
+	ssh -p $(DEPLOY_PORT) $(DEPLOY_HOST) $(1)
 endef
