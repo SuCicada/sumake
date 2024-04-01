@@ -18,7 +18,7 @@ print(install_dir)
 current = Path(__file__).parent.absolute()
 
 
-VERSION = "0.0.7"
+VERSION = "0.0.8"
 
 def generate_sumake(home_dir, current):
     sumake_dir = home_dir / ".sumake"

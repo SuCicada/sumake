@@ -7,3 +7,4 @@ sumake.egg-info
 dist
 .pytest_cache
 version.txt
+__pycache__
