@@ -3,8 +3,8 @@
 
 
 install:
-	rm -f ~/.sumake/utils.mk
-	python setup.py install --verbose
+	rm -f ~/.sumake/*
+	python setup.py install --verbose 
 	ls ~/.sumake
 	pip install . --verbose
 
