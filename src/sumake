@@ -4,13 +4,13 @@ args=()
 while [[ $# -gt 0 ]]; do
   case $1 in
     -h|--help)
-      echo "
-sumake:
-  -h, --help: show this help
-  -v, --version: show version
-  --zsh-init: init zsh completion
-      "
+      cat $HOME/.sumake/help.txt
       args+=("$1")
+      exit 0
+      ;;
+    --make-help)
+      make -h
+      exit 0
       ;;
     -v|--version)
       echo "sumake: {VERSION}"
@@ -45,10 +45,12 @@ fi
 done
 
 export SUMAKE="$(which sumake)"
-cmd="make -f {UTILS_MK}"
+cmd="make"
 if [ -f Makefile ]; then
   cmd+=" -f Makefile "
 fi
+cmd+=" -f {UTILS_MK} "
+echo [sumake] $cmd "${{args[@]}}"
 $cmd "${{args[@]}}"
 
 

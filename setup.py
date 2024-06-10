@@ -18,7 +18,7 @@ print(install_dir)
 current = Path(__file__).parent.absolute()
 src_dir = current / "src"
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 
 
 def generate_sumake(home_dir, current):
@@ -33,8 +33,12 @@ def generate_sumake(home_dir, current):
     print("src_dir", src_dir)
 
     utils_mk = sumake_dir / "utils.mk"
-    shutil.copy(src_dir / "utils.mk", utils_mk)
-    shutil.copy(src_dir / "utils.py", sumake_dir / "utils.py")
+    # shutil.copy(src_dir / "utils.mk", utils_mk)
+    with os.scandir(src_dir) as dirs:
+        for f in dirs:
+            if f.is_file() and not f.name == "sumake":
+                shutil.copy(f, sumake_dir / f.name)
+    # shutil.copy(src_dir / "utils.py", sumake_dir / "utils.py")
     # open("./sumake")
     with open(src_dir / "sumake", "r") as template:
         with open(bin_dir / "sumake", "w") as target:
