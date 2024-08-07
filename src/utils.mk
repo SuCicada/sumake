@@ -1,4 +1,6 @@
 deploy_path := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+sumake_help:
+	sumake -h
 include $(deploy_path)/ssh.mk
 include $(deploy_path)/docker.mk
 include $(deploy_path)/aws.mk
@@ -38,4 +40,3 @@ endif
 # define command
 # 	ssh -p $(DEPLOY_PORT) $(DEPLOY_HOST) $(1)
 # endef
-

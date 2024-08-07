@@ -18,7 +18,7 @@ print(install_dir)
 current = Path(__file__).parent.absolute()
 src_dir = current / "src"
 
-VERSION = "0.2.0"
+VERSION = "0.2.3"
 
 
 def generate_sumake(home_dir, current):
@@ -104,6 +104,7 @@ if __name__ == "__main__":
         version=VERSION,
         zip_safe=False,
         packages=find_packages("src"),
+        package_data={"": ["src"]},
         package_dir={"": "src"},
         options={'egg_info': {'egg_base': "./"}},
 )

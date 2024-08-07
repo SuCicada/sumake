@@ -46,11 +46,9 @@ done
 
 export SUMAKE="$(which sumake)"
 cmd="make"
+cmd+=" -f {UTILS_MK} "
 if [ -f Makefile ]; then
   cmd+=" -f Makefile "
 fi
-cmd+=" -f {UTILS_MK} "
 echo [sumake] $cmd "${{args[@]}}"
 $cmd "${{args[@]}}"
-
-
