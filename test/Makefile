@@ -1,4 +1,4 @@
 DEPLOY_HOST=localhost
-test:
+docker-run-local:
 	echo args: $(args)
 	$(call ssh, "uname -a")

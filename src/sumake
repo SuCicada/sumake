@@ -46,7 +46,11 @@ done
 
 export SUMAKE="$(which sumake)"
 cmd="make"
-cmd+=" -f {UTILS_MK} "
+utils_mk="{UTILS_MK}"
+if [ ! -f $utils_mk ]; then
+  utils_mk="$HOME/.sumake/utils.mk"
+fi
+cmd+=" -f $utils_mk"
 if [ -f Makefile ]; then
   cmd+=" -f Makefile "
 fi

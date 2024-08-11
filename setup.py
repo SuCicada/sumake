@@ -9,7 +9,6 @@ from setuptools.command.install import install
 from setuptools.command.sdist import sdist
 from wheel.bdist_wheel import bdist_wheel
 
-
 home_dir = Path.home()
 install_dir = sysconfig.get_paths()["purelib"]
 print(home_dir)
@@ -18,7 +17,7 @@ print(install_dir)
 current = Path(__file__).parent.absolute()
 src_dir = current / "src"
 
-VERSION = "0.2.3"
+VERSION = "0.2.4"
 
 
 def generate_sumake(home_dir, current):
@@ -104,7 +103,7 @@ if __name__ == "__main__":
         version=VERSION,
         zip_safe=False,
         packages=find_packages("src"),
-        package_data={"": ["src"]},
+        package_data={"sumake": ["src"]},
         package_dir={"": "src"},
         options={'egg_info': {'egg_base': "./"}},
 )
