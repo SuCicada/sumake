@@ -17,7 +17,7 @@ dist: clean
 	$(eval VERSION = $(shell cat version.txt))
 	tar -ztvf dist/sumake-$(VERSION).tar.gz
 
-publish: clean dist
+publish: dist
 	#mv dist/sumake-$(VERSION).tar.gz dist/sumake-$(VERSION)-$(shell date +%s).tar.gz
 	twine upload dist/* --verbose
 
