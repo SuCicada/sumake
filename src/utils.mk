@@ -1,6 +1,24 @@
 deploy_path := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+
+
+ifneq ("$(wildcard .env.make)","")
+include .env.make
+$(info Including .env.make file)
+#	export
+else ifneq ("$(wildcard .env)","")
+include .env
+$(info Including .env file)
+#	export
+endif
+
+test2 = $(TEST2)
+
 sumake_help:
-	sumake -h
+	@echo TEST $(TEST)
+	@echo test2 $(TEST2)
+	@echo deploy_path: $(deploy_path)
+	#sumake -h
+
 include $(deploy_path)/ssh.mk
 include $(deploy_path)/docker.mk
 include $(deploy_path)/aws.mk

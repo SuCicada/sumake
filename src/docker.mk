@@ -2,6 +2,7 @@
 # DOCKER_HOST
 # DOCKER_SERVICE_PORT
 # DOCKER_RUN_OPTS
+# DOCKER_BUILD_OPTS
 
 DOCKER_REPOSITORY ?= sucicada
 
@@ -10,17 +11,20 @@ REMOTE_DOCKER_HOST ?= $(DOCKER_HOST)
 
 docker_image_name := $(DOCKER_REPOSITORY)/$(service_name):latest
 
-remote_docker := unset DOCKER_HOST; docker
+remote_docker := unset DOCKER_HOST && docker
 ifeq ($(REMOTE),true)
 	remote_docker := DOCKER_HOST=$(REMOTE_DOCKER_HOST) docker
 endif
+_docker-info:
+	@echo DOCKER_SERVICE_NAME $(DOCKER_SERVICE_NAME)
+
 
 docker-build:
-	$(remote_docker) build -t $(docker_image_name) .
+	$(remote_docker) build -t $(docker_image_name) $(DOCKER_BUILD_OPTS) .
 
 _docker-run: docker-build
-	@echo $(DOCKER_HOST)
-	@echo $(remote_docker)
+	@echo "DOCKER_HOST: $(DOCKER_HOST)"
+	@echo "remote_docker: $(remote_docker)"
 	$(remote_docker) stop $(service_name) || true
 	$(remote_docker) rm $(service_name) || true
 	$(remote_docker) run -d -p $(DOCKER_SERVICE_PORT):$(DOCKER_SERVICE_PORT) \

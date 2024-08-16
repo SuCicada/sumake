@@ -55,4 +55,19 @@ if [ -f Makefile ]; then
   cmd+=" -f Makefile "
 fi
 echo [sumake] $cmd "${{args[@]}}"
-$cmd "${{args[@]}}"
+
+env_file=""
+if [ -f "$PWD/.env.make" ]; then
+  echo "Including .env.make file"
+  env_file="$PWD/.env.make"
+elif [ -f "$PWD/.env" ]; then
+  echo "Including .env file"
+  env_file="$PWD/.env"
+fi
+
+echo "env_file: $env_file"
+if [ -n "$env_file" ]; then
+  source $env_file && $cmd "${{args[@]}}"
+else
+  $cmd "${{args[@]}}"
+fi
