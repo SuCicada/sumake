@@ -14,10 +14,8 @@ endif
 test2 = $(TEST2)
 
 sumake_help:
-	@echo TEST $(TEST)
-	@echo test2 $(TEST2)
 	@echo deploy_path: $(deploy_path)
-	#sumake -h
+	sumake -h
 
 include $(deploy_path)/ssh.mk
 include $(deploy_path)/docker.mk
