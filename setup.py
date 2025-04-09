@@ -1,10 +1,10 @@
 import os.path
 import shutil
 import sysconfig
-from pathlib import Path
 import time
+from pathlib import Path
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 from setuptools.command.install import install
 from setuptools.command.sdist import sdist
 from wheel.bdist_wheel import bdist_wheel
@@ -17,7 +17,7 @@ print(install_dir)
 current = Path(__file__).parent.absolute()
 src_dir = current / "src"
 
-VERSION = "0.2.6"
+VERSION = "0.3.0"
 
 
 def generate_sumake(home_dir, current):
@@ -94,6 +94,7 @@ if __name__ == "__main__":
         # keywords="",
         # license="",
         long_description=open("README.md").read(),
+        long_description_content_type="text/markdown",
         name="sumake",
         # namespace_packages=[],
         # packages=find_packages(),

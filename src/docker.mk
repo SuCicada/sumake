@@ -5,6 +5,8 @@
 # DOCKER_BUILD_OPTS
 # DOCKER_RUN_HOST // 如果DOCKER_RUN_HOST存在，则使用DOCKER_RUN_HOST，否则使用DOCKER_HOST
 # DOCKER_SKIP_BUILD
+# DOCKER_HOST_LIST // 如果DOCKER_HOST_LIST存在，则使用DOCKER_HOST_LIST，否则使用DOCKER_HOST
+# DOCKER_REPOSITORY
 
 DOCKER_REPOSITORY ?= sucicada
 
@@ -14,6 +16,8 @@ REMOTE_DOCKER_HOST ?= $(DOCKER_HOST)
 docker_image_name := $(DOCKER_REPOSITORY)/$(service_name):latest
 
 remote_docker := unset DOCKER_HOST && docker
+remote_run_docker := $(remote_docker)
+
 ifeq ($(REMOTE),true)
 	remote_docker := DOCKER_HOST=$(REMOTE_DOCKER_HOST) docker
 	ifneq ($(DOCKER_RUN_HOST),)
@@ -54,12 +58,30 @@ _docker-run: $(DOCKER_BUILD)
 		$(if $(DOCKER_SERVICE_PORT), -p $(DOCKER_SERVICE_PORT):$(DOCKER_SERVICE_PORT),) \
 		--name $(service_name) \
 		$(if $(wildcard .env), --env-file .env,) \
-		--restart=always \
+		--restart=unless-stopped \
 		$(DOCKER_RUN_OPTS) \
 		$(docker_image_name)
 
+#  处理 DOCKER_HOST_LIST
+docker_host_list := $(DOCKER_HOST_LIST)
+ifneq ($(docker_host_list),)
+	docker_host_list := $(shell echo $(docker_host_list) | tr -d '"' | tr ',' '\n')
+	docker_host_list := $(foreach host,$(docker_host_list),$(strip $(host)))
+else
+	docker_host_list := $(DOCKER_HOST)
+endif
+
+
+
 docker-run-remote:
-	REMOTE=true sumake _docker-run
+	@$(foreach host,$(docker_host_list), \
+		echo "=========================================="; \
+		echo "======= start run on [$(host)] ======="; \
+		REMOTE_DOCKER_HOST=$(host) \
+		REMOTE=true sumake _docker-run; \
+		echo "======= end run on [$(host)] ======="; \
+		echo "=========================================="; \
+	)
 
 docker-run-local:
 	sumake _docker-run
@@ -68,6 +90,9 @@ docker-build-remote:
 	REMOTE=true sumake docker-build
 docker-build-local:
 	sumake docker-build
+
+docker-info-remote:
+	remote_run_docker info
 
 docker-push:
 	docker push $(docker_image_name)
