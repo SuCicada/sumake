@@ -4,7 +4,7 @@ import subprocess
 import sys
 import time
 import traceback
-from os.path import splitext, basename
+from os.path import basename, splitext
 
 DEPLOY_HOST = os.environ["DEPLOY_HOST"]
 DEPLOY_PORT = os.environ["DEPLOY_PORT"]
@@ -52,7 +52,7 @@ def upload(source_path, destination_path):
     if des_dir != "":
         ssh(f"mkdir -p {des_dir}")
     run_cmd(
-        f"rsync -av --rsh='ssh -o StrictHostKeyChecking=no -p {DEPLOY_PORT}' "
+        f"rsync -av --progress --rsh='ssh -o StrictHostKeyChecking=no -p {DEPLOY_PORT}' "
         f" {source_path} "
         f" {DEPLOY_HOST}:{destination_path}"
     )

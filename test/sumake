@@ -1,0 +1,20 @@
+#!/bin/bash
+echo $@
+args=("$@")
+echo $args
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -v|--version)
+      echo "sumake: {VERSION}"
+      ;;
+  esac
+  shift
+done
+
+
+cmd="make -f ../src/utils.mk"
+if [ -f Makefile ]; then
+  cmd+=" -f Makefile "
+fi
+echo $cmd "${args[@]}"
+$cmd "${args[@]}"

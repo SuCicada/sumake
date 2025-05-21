@@ -29,6 +29,7 @@ ifeq ($(REMOTE),true)
 endif
 
 DOCKER_RUN_OPTS := $(shell echo $(DOCKER_RUN_OPTS) | tr -d '"')
+DOCKER_BUILD_OPTS := $(shell echo $(DOCKER_BUILD_OPTS) | tr -d '"')
 
 _docker-info:
 	@echo DOCKER_SERVICE_NAME $(DOCKER_SERVICE_NAME)
